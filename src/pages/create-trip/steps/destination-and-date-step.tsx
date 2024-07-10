@@ -33,7 +33,7 @@ export const DestinationAndDateStep = ({isGuestInputOpen, closeGuestInput, openG
       {isGuestInputOpen ? (
         <button
           onClick={closeGuestInput}
-          className="bg-zinc-800 px-5 py-2 text-zinc-200 rounded-lg font-medium flex items-center gap-2 hover:bg-zinc-950"
+          className="bg-zinc-800 px-5 py-2 text-zinc-200 rounded-lg font-medium flex items-center gap-2 hover:bg-zinc-700"
         >
           Alterar local/data <Settings2 className="size-5" />{" "}
         </button>

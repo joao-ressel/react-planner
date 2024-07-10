@@ -9,7 +9,10 @@ interface InviteGuestsModalProps {
 }
 
 export const InviteGuestsModal = ({
-    addEmailToInvite, closeModal, emailsToInvite, removeEmailFromInvites
+  addEmailToInvite,
+  closeModal,
+  emailsToInvite,
+  removeEmailFromInvites,
 }: InviteGuestsModalProps) => {
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
@@ -17,10 +20,7 @@ export const InviteGuestsModal = ({
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold">Selecionar convidados</h2>
-            <button
-              type="button"
-              onClick={closeModal}
-            >
+            <button type="button" onClick={closeModal}>
               <X className="size-5 text-zinc-400" />
             </button>
           </div>
@@ -49,6 +49,7 @@ export const InviteGuestsModal = ({
         </div>
 
         <div className="w-full h-px bg-zinc-800" />
+
         <form
           onSubmit={addEmailToInvite}
           className="px-2 py-2 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2"
