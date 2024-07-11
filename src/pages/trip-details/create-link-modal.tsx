@@ -1,4 +1,4 @@
-import { FileHeart, Globe, X } from "lucide-react";
+import { Link2, Tag, X } from "lucide-react";
 import { Button } from "../../components/button";
 import { FormEvent } from "react";
 import { api } from "../../lib/axios";
@@ -47,11 +47,11 @@ export const CreateLinkModal = ({ closeModal }: CreateLinkModalProps) => {
               <X className="size-5 text-zinc-400" />
             </Button>
           </div>
-          <p className="text-sm text-zinc-400">Salve suas reservas e passeios aqui.</p>
+          <p className="text-sm text-zinc-400">Todos convidados podem visualizar os links importantes.</p>
         </div>
         <form onSubmit={createActivity} className="space-y-3">
           <div className="px-2.5 h-14 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
-            <FileHeart className="text-zinc-400 size-5" />
+            <Tag className="text-zinc-400 size-5" />
             <input
               name="title"
               placeholder="Dê um titulo para o link!"
@@ -61,7 +61,7 @@ export const CreateLinkModal = ({ closeModal }: CreateLinkModalProps) => {
           </div>
 
           <div className="px-4 h-14 flex-1 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">
-            <Globe className="text-zinc-400 size-5" />
+            <Link2 className="text-zinc-400 size-5" />
             <input
               name="url"
               placeholder="Qual a URL?"
@@ -70,7 +70,7 @@ export const CreateLinkModal = ({ closeModal }: CreateLinkModalProps) => {
             />
           </div>
           <Button size="full" type="submit">
-            Salvar atividade
+            Salvar link
           </Button>
         </form>
       </div>
