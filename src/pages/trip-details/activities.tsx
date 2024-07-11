@@ -1,9 +1,10 @@
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import { CircleCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+
 import { api } from "../../lib/axios";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 
 interface Activity {
   date: string;
@@ -24,8 +25,6 @@ export const Activities = () => {
       .then((response) => setActivities(response.data.activities));
   }, [tripId]);
 
-  activities.length;
-
   return (
     <div className="space-y-8">
       {activities.map((category) => {
@@ -41,7 +40,7 @@ export const Activities = () => {
               <div>
                 {category.activities.map((activity) => {
                   return (
-                    <div className="space-y-2.5">
+                    <div key={activity.id} className="space-y-2.5">
                       <div className="px-4 py-2.5 shadow-shape rounded-xl bg-zinc-900 flex items-center gap-3">
                         <CircleCheck className="text-lime-300 size-5" />
                         <span className="text-zinc-100">{activity.title}</span>

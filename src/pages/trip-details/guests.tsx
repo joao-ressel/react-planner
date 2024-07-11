@@ -16,10 +16,29 @@ export const Guests = () => {
   const [participants, setParticipants] = useState<Participant[]>([]);
 
   useEffect(() => {
+    fetchParticipants();
+  }, [tripId]);
+
+  const fetchParticipants = () => {
     api
       .get(`/trips/${tripId}/participants`)
-      .then((response) => setParticipants(response.data.participants));
-  }, [tripId]);
+      .then((response) => setParticipants(response.data.participants))
+      .catch((error) => console.error("Error fetching participants:", error));
+  };
+
+  async function confirmParticipant(participantId: string) {
+    try {
+      await api.patch(`/participants/${participantId}/confirm`);
+
+      setParticipants((prevParticipants) =>
+        prevParticipants.map((participant) =>
+          participant.id === participantId ? { ...participant, is_confirmed: true } : participant
+        )
+      );
+    } catch (error) {
+      console.error("Error confirming participant:", error);
+    }
+  }
 
   return (
     <div className="space-y-6">
@@ -29,13 +48,17 @@ export const Guests = () => {
           return (
             <div key={participant.id} className="flex items-center justify-between gap-4 ">
               <div className="space-y-1.5 flex-1">
-                <span className="block font-medium text-zinc-100">{participant?.name ?? `Participante ${index}`}</span>
+                <span className="block font-medium text-zinc-100">
+                  {participant?.name ?? `Participante ${index}`}
+                </span>
                 <span className="block text-sm text-zinc-400 truncate">{participant?.email}</span>
               </div>
               {participant.is_confirmed ? (
                 <CheckCircle className="size-5 text-green-400" />
               ) : (
-                <CircleDashed className="size-5 text-zinc-400" />
+                <button className="" onClick={() => confirmParticipant(participant.id)}>
+                  <CircleDashed className="size-5 text-zinc-400" />
+                </button>
               )}
             </div>
           );
