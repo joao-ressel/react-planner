@@ -1,18 +1,19 @@
-import { AtSign, Plus, X } from "lucide-react";
 import { FormEvent } from "react";
+import { AtSign, Plus, X } from "lucide-react";
+
 import { Button } from "../../components/button";
 
 interface InviteGuestsModalProps {
-  closeModal: () => void;
   emailsToInvite: string[];
+  closeModal: () => void;
   addEmailToInvite: (event: FormEvent<HTMLFormElement>) => void;
   removeEmailFromInvites: (email: string) => void;
 }
 
 export const InviteGuestsModal = ({
+  emailsToInvite,
   addEmailToInvite,
   closeModal,
-  emailsToInvite,
   removeEmailFromInvites,
 }: InviteGuestsModalProps) => {
   return (
@@ -25,10 +26,12 @@ export const InviteGuestsModal = ({
               <X className="size-5 text-zinc-400" />
             </button>
           </div>
+
           <p className="text-sm text-zinc-400">
             Os convidados irão receber e-mails para confirmar a participação na viagem.
           </p>
         </div>
+
         <div className="flex flex-wrap gap-2">
           {emailsToInvite.map((email) => (
             <div

@@ -1,8 +1,9 @@
-import { Link2, Tag, X } from "lucide-react";
-import { Button } from "../../components/button";
 import { FormEvent } from "react";
+import { Link2, Tag, X } from "lucide-react";
+
 import { api } from "../../lib/axios";
 import { useParams } from "react-router-dom";
+import { Button } from "../../components/button";
 
 interface CreateLinkModalProps {
   closeModal: () => void;
@@ -47,7 +48,9 @@ export const CreateLinkModal = ({ closeModal }: CreateLinkModalProps) => {
               <X className="size-5 text-zinc-400" />
             </Button>
           </div>
-          <p className="text-sm text-zinc-400">Todos convidados podem visualizar os links importantes.</p>
+          <p className="text-sm text-zinc-400">
+            Todos convidados podem visualizar os links importantes.
+          </p>
         </div>
         <form onSubmit={createActivity} className="space-y-3">
           <div className="px-2.5 h-14 bg-zinc-950 border border-zinc-800 rounded-lg flex items-center gap-2">

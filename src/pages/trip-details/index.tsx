@@ -1,22 +1,24 @@
-import { Plus } from "lucide-react";
 import { useState } from "react";
-import { CreateActivityModal } from "./create-activity-modal";
-import { ImportantLinks } from "./important-links";
+import { Plus } from "lucide-react";
+
 import { Guests } from "./guests";
 import { Activities } from "./activities";
-import { DestinationAndDateHeader } from "./destination-and-date-header";
 import { Button } from "../../components/button";
+import { ImportantLinks } from "./important-links";
+import { CreateActivityModal } from "./create-activity-modal";
+import { DestinationAndDateHeader } from "./destination-and-date-header";
 
 export const TripDetailsPage = () => {
-  const [isCreateActivityModalopen, setIsCreateActivityModalopen] =
-    useState(false);
+  const [isCreateActivityModalopen, setIsCreateActivityModalopen] = useState(false);
 
   const openCreateActivityModal = () => {
     setIsCreateActivityModalopen(true);
   };
+
   const closeModal = () => {
     setIsCreateActivityModalopen(false);
   };
+
   return (
     <div className="max-w-6xl px-6 py-10 mx-auto space-y-8">
       <DestinationAndDateHeader />
@@ -29,17 +31,17 @@ export const TripDetailsPage = () => {
               <Plus className="size-5" /> Cadastrar atividade
             </Button>
           </div>
+
           <Activities />
         </div>
+
         <div className="w-80 space-y-6 ">
           <ImportantLinks />
           <div className="w-full h-px bg-zinc-800" />
           <Guests />
         </div>
       </main>
-      {isCreateActivityModalopen && (
-        <CreateActivityModal closeModal={closeModal} />
-      )}
+      {isCreateActivityModalopen && <CreateActivityModal closeModal={closeModal} />}
     </div>
   );
 };

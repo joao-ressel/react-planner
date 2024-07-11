@@ -1,25 +1,27 @@
 import { FormEvent, useState } from "react";
-import { InviteGuestsModal } from "./invite-guests-modal";
-import { ConfirmTripModal } from "./confirm-trip-modal";
-import { useNavigate } from "react-router-dom";
-import { DestinationAndDateStep } from "./steps/destination-and-date-step";
-import { InviteGuestsStep } from "./steps/invite-guests-step";
 import { DateRange } from "react-day-picker";
+import { useNavigate } from "react-router-dom";
+
 import { api } from "../../lib/axios";
+import { ConfirmTripModal } from "./confirm-trip-modal";
+import { InviteGuestsModal } from "./invite-guests-modal";
+import { InviteGuestsStep } from "./steps/invite-guests-step";
+import { DestinationAndDateStep } from "./steps/destination-and-date-step";
 
 export const CreateTripPage = () => {
   const navigate = useNavigate();
 
+  const [isLoading, setIsLoading] = useState(false);
   const [isGuestInputOpen, setIsGuestInputOpen] = useState(false);
   const [isGuestModalOpen, setIsGuestModalOpen] = useState(false);
   const [isConfirmTripModalOpen, setIsConfirmTripModalOpen] = useState(false);
 
-  const [destination, setDestination] = useState("");
   const [ownerName, setOwnerName] = useState("");
   const [ownerEmail, setOwnerEmail] = useState("");
+  const [destination, setDestination] = useState("");
   const [eventStartAndDates, setEventStartAndDates] = useState<DateRange | undefined>();
 
-  const [emailsToInvite, setEmailsToInvite] = useState(["joao@gmail.com"]);
+  const [emailsToInvite, setEmailsToInvite] = useState<string[]>([]);
 
   const addEmailToInvite = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -62,38 +64,39 @@ export const CreateTripPage = () => {
 
   async function createTrip(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setIsLoading(true);
 
-    console.log(destination);
-    console.log(eventStartAndDates);
-    console.log(emailsToInvite);
-    console.log(ownerName);
-    console.log(ownerEmail);
+    try {
+      if (!destination) {
+        return;
+      }
+      if (emailsToInvite.length === 0) {
+        return;
+      }
+      if (!eventStartAndDates?.from || !eventStartAndDates?.to) {
+        return;
+      }
+      if (!ownerName || !ownerEmail) {
+        return;
+      }
 
-    if (!destination) {
-      return;
+      const response = await api.post("/trips", {
+        destination,
+        starts_at: eventStartAndDates?.from,
+        ends_at: eventStartAndDates?.to,
+        emails_to_invite: emailsToInvite,
+        owner_name: ownerName,
+        owner_email: ownerEmail,
+      });
+
+      const { tripId } = response.data;
+
+      navigate(`/trips/${tripId}`);
+    } catch (error) {
+      console.error("Erro ao criar viagem:", error);
+    } finally {
+      setIsLoading(false);
     }
-    if (emailsToInvite.length === 0) {
-      return;
-    }
-    if (!eventStartAndDates?.from || !eventStartAndDates?.to) {
-      return;
-    }
-    if (!ownerName || !ownerEmail) {
-      return;
-    }
-
-    const response = await api.post("/trips", {
-      destination,
-      starts_at: eventStartAndDates?.from,
-      ends_at: eventStartAndDates?.to,
-      emails_to_invite: emailsToInvite,
-      owner_name: ownerName,
-      owner_email: ownerEmail,
-    });
-
-    const { tripId } = response.data;
-
-    navigate(`/trips/${tripId}`);
   }
 
   return (
@@ -144,6 +147,9 @@ export const CreateTripPage = () => {
       )}
       {isConfirmTripModalOpen && (
         <ConfirmTripModal
+          isLoading={isLoading}
+          destination={destination}
+          eventStartAndDates={eventStartAndDates}
           closeModal={closeModal}
           createTrip={createTrip}
           setOwnerName={setOwnerName}
