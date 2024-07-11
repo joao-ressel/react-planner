@@ -21,13 +21,12 @@ export const InviteGuestsModal = ({
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold">Selecionar convidados</h2>
-            <Button onClick={closeModal} variant="icon">
+            <button onClick={closeModal} type="button">
               <X className="size-5 text-zinc-400" />
-            </Button>
+            </button>
           </div>
           <p className="text-sm text-zinc-400">
-            Os convidados irão receber e-mails para confirmar a participação na
-            viagem.
+            Os convidados irão receber e-mails para confirmar a participação na viagem.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
